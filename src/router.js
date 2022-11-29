@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ArticleNewPage from './pages/articles/ArticleNewPage.vue';
+import ArticleShowPage from './pages/articles/ArticleShowPage.vue';
 import HomeIndexPage from './pages/home/HomeIndexPage.vue';
 
 const routes = [
@@ -11,6 +12,10 @@ const routes = [
     path: '/articles/new',
     name: 'ArticleNewPage',
     component: ArticleNewPage
+  },{
+    path: '/articles/:id',
+    name: 'ArticleShowPage',
+    component: ArticleShowPage
   }
 ]
 const router = createRouter({
