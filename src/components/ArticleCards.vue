@@ -5,6 +5,7 @@
       :id="article.id"
       :title="article.title"
       :author="article.author"
+      :createdAt="article.createdAt"
     />
   </div>
 </template>
