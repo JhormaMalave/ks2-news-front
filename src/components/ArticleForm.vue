@@ -105,24 +105,30 @@ setValues({
 const { value: title } = useField('title', validateTitle);
 const { value: author } = useField('author', validateAuthor);
 
-const validateForm = (values) => {
-  const {title, author} = values;
-  validateTitle(title);
-  validateAuthor(author);
-}
-
 function onInvalidSubmit({ values, errors, results }) {
-  console.log(values); // current form values
-  console.log(errors); // a map of field names and their first error message
-  console.log(results); // a detailed map of field names and their validation results
+  console.log(errors)
 }
 
 
 
-const onSubmit = handleSubmit(values => {
-  console.log('a')
-  validateForm(values);
-  alert(JSON.stringify(values, null, 2));
+const onSubmit = handleSubmit(async values => {
+  const articleValues = {
+    title: values.title,
+    body: values.author,
+    categoryId: 6,
+    content: 'Cuerpo de ejemplo',
+  };
+
+  try {
+
+    const response = await axios.post('http://localhost:3000/api/articles/', articleValues);
+
+    if(response.status === 200) {
+      router.push({ path : '/' });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }, onInvalidSubmit);
 </script>
 
@@ -132,6 +138,8 @@ const onSubmit = handleSubmit(values => {
 <script>
 import RichText from './RichText.vue';
 import { ErrorMessage } from 'vee-validate';
+import axios from 'axios';
+import router from '../router';
 
 export default {
   name: 'ArticleForm',
