@@ -1,8 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import ArticleNewPage from './pages/articles/ArticleNewPage.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import ArticleNewPage from './pages/articles/ArticleNewPage.vue';
+import HomeIndexPage from './pages/home/HomeIndexPage.vue';
 
 const routes = [
   {
+    path: '/',
+    name: 'HomeIndexPage',
+    component: HomeIndexPage
+  },{
     path: '/articles/new',
     name: 'ArticleNewPage',
     component: ArticleNewPage
