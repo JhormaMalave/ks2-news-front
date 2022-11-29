@@ -1,11 +1,5 @@
 <template>
-  <div class="flex items-center justify-center p-12">
-  <!-- Author: FormBold Team -->
-  <!-- Learn More: https://formbold.com -->
-  <div class="mx-auto w-full max-w-[550px]">
-    <h1 class="text-2xl font-extrabold text-gray-500 sm:text-3xl md:text-5xl mb-7">
-      Crear nueva noticia
-    </h1>
+
 
     <form action="https://formbold.com/s/FORM_ID" method="POST">
       <div class="mb-5">
@@ -74,8 +68,6 @@
         </button>
       </div>
     </form>
-  </div>
-</div>
 </template>
 
 <script>
