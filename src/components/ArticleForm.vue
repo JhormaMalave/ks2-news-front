@@ -25,7 +25,7 @@
         >
           Imagen
         </label>
-        <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1]" id="file_input" type="file" v-on:change="handleUploadImage">
+        <input accept="image/png, image/gif, image/jpeg" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1]" id="file_input" type="file" v-on:change="handleUploadImage">
 
         <ErrorMessage name="image" class="font-medium text-red-400" />
 
@@ -68,7 +68,15 @@
         >
           Contenido
         </label>
-        <RichText />
+        <textarea
+          rows="4"
+          name="content"
+          id="content"
+          placeholder="Contenido del articulo"
+          class="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          v-model="content"
+        ></textarea>
+        <ErrorMessage name="content" class="font-medium text-red-400" />
       </div>
       <div>
         <button
@@ -103,6 +111,14 @@ const validateAuthor = (value) => {
   }
   if (value.length > 150) {
     return 'El autor excede el maximo de 150 caracteres'
+  }
+
+  return true;
+}
+
+const validateContent = (value) => {
+  if (!value) {
+    return 'Debes colocar el contenido del articulo'
   }
 
   return true;
@@ -143,12 +159,14 @@ setFieldValue('title', '');
 setValues({
   title: '',
   author: '',
-  image: ''
+  image: '',
+  content: ''
 });
 
-const { value: title } = useField('title', validateTitle);
+const { value: title } = useField('title', validateTitle);validateContent
 const { value: author } = useField('author', validateAuthor);
 useField('image', validateImage);
+const { value: content } = useField('content', validateContent);
 
 function onInvalidSubmit({ values, errors, results }) {
   console.log(errors)
@@ -162,7 +180,7 @@ const onSubmit = handleSubmit(async values => {
     body: values.author,
     categoryId: 6,
     image: values.image,
-    content: 'Cuerpo de ejemplo',
+    content: values.content,
   };
 
   try {
@@ -182,7 +200,7 @@ const onSubmit = handleSubmit(async values => {
 
 
 <script>
-import RichText from './RichText.vue';
+//import RichText from './RichText.vue';
 import { ErrorMessage } from 'vee-validate';
 import axios from 'axios';
 import router from '../router';
@@ -190,7 +208,7 @@ import router from '../router';
 export default {
   name: 'ArticleForm',
   components: {
-    RichText,
+    //RichText,
     ErrorMessage
   },
   data: () => {
