@@ -4,8 +4,16 @@
         <img :src="image" alt="plant" class="h-auto w-full" />
       </div>
       <div class="p-5">
-        <p class="text-gray-900 font-bold text-2xl tracking-tight mb-1 dark:text-white">{{ title }}</p>
-        <p class="text-medium mb-5 text-gray-700">{{ dateTime(createdAt) }}</p>
+        <p class="text-gray-900 font-bold text-2xl tracking-tight mb-1 dark:text-white truncate">{{ title }}</p>
+        <p class="text-medium mb-4 text-gray-700">{{ dateTime(createdAt) }}</p>
+        <div class="flex justify-between">
+          <router-link class="text-orange-400 font-bold duration-200 hover:scale-105 hover:text-orange-800" to="/articles/new">
+            Editar
+          </router-link>
+          <router-link class="text-red-400 font-bold duration-200 hover:scale-105 hover:text-red-800" to="/articles/new">
+            Eliminar
+          </router-link>
+        </div>
       </div>
     </router-link>
 </template>
