@@ -1,11 +1,13 @@
 <template>
   <div class="flex items-center justify-center p-12">
     <div class="mx-auto w-full max-w-[750px]">
-      <h1 class="text-2xl font-extrabold text-gray-200 sm:text-3xl md:text-5xl mb-7">
-        Ks2 newspapers
-      </h1>
       <SearchArticles :getArticles="getArticles" />
       <ArticleCards :articles="articles" />
+      <div v-if="(articles.length == 0)">
+        <h1 class="text-2xl my-[10vh] font-extrabold center text-gray-300 sm:text-3xl md:text-5xl mb-7">
+          No hay nada que mostrar, te invitamos a ser el primero en <router-link to='/articles/new' class="text-indigo-500" >Crear</router-link> una noticia.
+        </h1>
+      </div>
     </div>
   </div>
 </template>
