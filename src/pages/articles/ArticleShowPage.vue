@@ -9,7 +9,7 @@
         <img :src="article.image" alt="plant" class="object-cover h-full w-full" />
       </div>
       <p class="text-right text-gray-400 mb-7">{{ dateTime(article.createdAt) }}</p>
-      <div>{{ article.content }}</div>
+      <div v-html="article.content"></div>
     </div>
   </div>
 </template>

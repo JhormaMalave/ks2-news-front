@@ -68,14 +68,7 @@
         >
           Contenido
         </label>
-        <textarea
-          rows="4"
-          name="content"
-          id="content"
-          placeholder="Contenido del articulo"
-          class="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-          v-model="content"
-        ></textarea>
+        <RichText :editContent="editContent" :contentValue="content" />
         <ErrorMessage name="content" class="font-medium text-red-400" />
       </div>
       <div>
@@ -103,6 +96,11 @@ const validateTitle = (value) => {
   }
 
   return true;
+}
+
+const editContent = (value) => {
+  console.log(content)
+  setFieldValue('content', value);
 }
 
 const validateAuthor = (value) => {
@@ -200,7 +198,7 @@ const onSubmit = handleSubmit(async values => {
 
 
 <script>
-//import RichText from './RichText.vue';
+import RichText from './RichText.vue';
 import { ErrorMessage } from 'vee-validate';
 import axios from 'axios';
 import router from '../router';
@@ -208,7 +206,7 @@ import router from '../router';
 export default {
   name: 'ArticleForm',
   components: {
-    //RichText,
+    RichText,
     ErrorMessage
   },
   data: () => {
