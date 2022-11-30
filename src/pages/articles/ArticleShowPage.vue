@@ -6,7 +6,7 @@
       </h1>
       <p class="font-bold text-indigo-400 text-2xl mb-7">{{ article.author }}</p>
       <div class="w-full bg-indigo-400 max-h-[415px] h-[50vw] rounded-lg overflow-hidden">
-        <img src="https://i.imgur.com/5dmBrx6.jpg" alt="plant" class="object-cover h-full w-full" />
+        <img :src="article.image" alt="plant" class="object-cover h-full w-full" />
       </div>
       <p class="text-right text-gray-400 mb-7">{{ dateTime(article.createdAt) }}</p>
       <div>{{ article.content }}</div>
