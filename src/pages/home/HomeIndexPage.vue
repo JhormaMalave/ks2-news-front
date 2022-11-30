@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-extrabold text-gray-600 sm:text-3xl md:text-5xl mb-7">
         Ks2 newspapers
       </h1>
-      <SearchArticles />
+      <SearchArticles :getArticles="getArticles" />
       <ArticleCards :articles="articles" />
     </div>
   </div>
@@ -24,10 +24,10 @@ export default {
     }
   },
   methods: {
-    async getArticles () {
+    async getArticles (params= '') {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/articles/"
+          `http://localhost:3000/api/articles/${params}`
         );
         console.log(response)
         // JSON responses are automatically parsed.
