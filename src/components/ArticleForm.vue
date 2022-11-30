@@ -20,6 +20,18 @@
       </div>
       <div class="mb-5">
         <label
+          for="name"
+          class="mb-3 block text-base font-medium text-[#07074D]"
+        >
+          Imagen
+        </label>
+        <input class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1]" id="file_input" type="file" v-on:change="handleUploadImage">
+
+        <ErrorMessage name="image" class="font-medium text-red-400" />
+
+      </div>
+      <div class="mb-5">
+        <label
           for="author"
           class="mb-3 block text-base font-medium text-[#07074D]"
         >
@@ -96,14 +108,47 @@ const validateAuthor = (value) => {
   return true;
 }
 
+const validateImage = (value) => {
+  if (!value) {
+    return 'Debes subir una imagen'
+  }
+
+  return true;
+}
+
+const convertBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+const handleUploadImage = async (event) => {
+    const file = event.target.files[0];
+    const base64 = await convertBase64(file);
+
+    setFieldValue('image', base64);
+};
+
+
 setFieldValue('title', '');
 setValues({
   title: '',
-  author: ''
+  author: '',
+  image: ''
 });
 
 const { value: title } = useField('title', validateTitle);
 const { value: author } = useField('author', validateAuthor);
+useField('image', validateImage);
 
 function onInvalidSubmit({ values, errors, results }) {
   console.log(errors)
@@ -116,6 +161,7 @@ const onSubmit = handleSubmit(async values => {
     title: values.title,
     body: values.author,
     categoryId: 6,
+    image: values.image,
     content: 'Cuerpo de ejemplo',
   };
 
