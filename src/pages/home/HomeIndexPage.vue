@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center p-12">
     <div class="mx-auto w-full max-w-[750px]">
       <SearchArticles :getArticles="getArticles" />
-      <ArticleCards :articles="articles" />
+      <ArticleCards :articles="articles" :refreshArticles="getArticles" />
       <div v-if="(articles.length == 0)">
         <h1 class="text-2xl my-[10vh] font-extrabold center text-gray-300 sm:text-3xl md:text-5xl mb-7">
           No hay nada que mostrar, te invitamos a ser el primero en <router-link to='/articles/new' class="text-indigo-500" >Crear</router-link> una noticia.
@@ -13,35 +13,28 @@
   <AlertMessage />
 </template>
 
-<script>
+<script setup>
 import AlertMessage from '@/components/AlertMessage.vue';
 import ArticleCards from '@/components/ArticleCards.vue';
 import SearchArticles from '@/components/SearchArticles.vue';
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
-export default {
-  name: 'HomeIndexPage',
-  components: {SearchArticles, AlertMessage, ArticleCards},
-  data() {
-    return {
-      articles: []
-    }
-  },
-  methods: {
-    async getArticles (params= '') {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/articles/${params}`
-        );
-        // JSON responses are automatically parsed.
-        this.articles = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  },
-  created () {
-    this.getArticles();
+const articles = ref([]);
+
+const getArticles =  async (params= '') => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/articles/${params}`
+    );
+
+    articles.value = response.data;
+  } catch (error) {
+    console.log(error);
   }
 }
+
+onMounted( () => {
+  getArticles();
+});
 </script>

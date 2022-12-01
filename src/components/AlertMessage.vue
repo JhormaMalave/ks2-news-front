@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onUnmounted, onMounted, ref } from 'vue';
 const message = ref();
 
 const getMessage = async () => sessionStorage.getItem('alert');
@@ -24,6 +24,10 @@ const remoseAlert = async () => {
 
 onMounted(async () => {
   message.value = await getMessage();
+});
+
+onUnmounted(async () => {
+  sessionStorage.removeItem('alert')
 });
 
 </script>
