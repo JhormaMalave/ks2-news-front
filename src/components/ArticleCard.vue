@@ -20,9 +20,11 @@
         </div>
       </div>
     </div>
+    <DeleteModal />
 </template>
 
 <script setup>
+  import DeleteModal from '@/components/DeleteModal.vue';
   const destroyArticle = async (value) => {
     try {
       const response = await axios.delete(`http://localhost:3000/api/articles/${value}`);
