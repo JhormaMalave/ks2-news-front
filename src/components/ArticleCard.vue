@@ -45,7 +45,7 @@ const destroyArticle = async (value) => {
     const response = await axios.delete(`http://localhost:3000/api/articles/${value}`);
 
   if(response.status === 200) {
-    console.log('El articulo fue eliminado')
+    props.refreshArticles();
     sessionStorage.setItem('alert', 'La noticia fue eliminada exitosamente');
   }
   } catch (error) {
@@ -57,10 +57,13 @@ const dateTime = (value) => {
   return moment(value).format('lll');
 }
 
-defineProps({
+const props = defineProps({
   title: String,
   createdAt: String,
   image: String,
+  refreshArticles: Function,
   id: Number
 });
+
+
 </script>

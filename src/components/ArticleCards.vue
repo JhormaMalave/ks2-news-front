@@ -6,18 +6,17 @@
       :title="article.title"
       :image="article.image"
       :createdAt="article.createdAt"
+      :refreshArticles= "refreshArticles"
     />
   </div>
 </template>
 
-<script>
-import ArticleCard from './ArticleCard.vue';
+<script setup>
 
-export default {
-  name: 'ArticleCards',
-  components: {ArticleCard},
-  props: {
-    articles: Array
-  },
-}
+import ArticleCard from './ArticleCard.vue';
+defineProps({
+  articles: Array,
+  refreshArticles: Function
+})
+
 </script>
