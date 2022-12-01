@@ -5,7 +5,8 @@
         <span class="text-indigo-400">Editar</span> noticia.
       </h1>
       <ArticleForm
-        :defaultArticle="article"
+        v-if="article"
+        :defaultArticle="this.article"
       />
     </div>
   </div>
@@ -31,13 +32,12 @@ export default {
           `http://localhost:3000/api/articles/${this.id}`
         );
         this.article = response.data;
-        console.log(response.data)
       } catch (error) {
         console.log(error);
       }
     },
-  }, created () {
-    this.getArticle();
+  }, async mounted () {
+    await this.getArticle();
   }
 }
 </script>

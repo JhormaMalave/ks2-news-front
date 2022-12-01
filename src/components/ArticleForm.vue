@@ -82,50 +82,52 @@
     </form>
 </template>
 
+
 <script setup>
 import { useForm, useField, } from 'vee-validate';
+import RichText from './RichText.vue';
+import { ErrorMessage } from 'vee-validate';
+import axios from 'axios';
+import router from '../router';
+
+const props = defineProps({
+  defaultArticle: Object
+});
+
 const { handleSubmit, setFieldValue, setValues } = useForm();
+if (props.defaultArticle) {
+  setValues({
+    title: props.defaultArticle.title,
+    content: props.defaultArticle.content,
+    image: props.defaultArticle.image,
+    author: props.defaultArticle.author
+  })
+}
+
 
 // Validations functions
 const validateTitle = (value) => {
-  if (!value) {
-    return 'Debes colocar el titulo'
-  }
-  if (value.length > 150) {
-    return 'El titulo excede el maximo de 150 caracteres'
-  }
+  if (!value) {return'Debes colocar el titulo'}
+  if (value.length > 150) {return'El titulo excede el maximo de 150 caracteres'}
 
   return true;
 }
 
-const editContent = (value) => {
-  console.log(content)
-  setFieldValue('content', value);
-}
-
 const validateAuthor = (value) => {
-  if (!value) {
-    return 'Debes colocar el autor'
-  }
-  if (value.length > 150) {
-    return 'El autor excede el maximo de 150 caracteres'
-  }
+  if (!value) {return'Debes colocar el autor'}
+  if (value.length > 150) {return 'El autor excede el maximo de 150 caracteres'}
 
   return true;
 }
 
 const validateContent = (value) => {
-  if (!value) {
-    return 'Debes colocar el contenido del articulo'
-  }
+  if (!value) {return 'Debes colocar el contenido del articulo'}
 
   return true;
 }
 
 const validateImage = (value) => {
-  if (!value) {
-    return 'Debes subir una imagen'
-  }
+  if (!value) {return 'Debes subir una imagen'}
 
   return true;
 }
@@ -145,6 +147,9 @@ const convertBase64 = (file) => {
   });
 };
 
+// Handles
+const editContent = (value) => setFieldValue('content', value);
+
 const handleUploadImage = async (event) => {
     const file = event.target.files[0];
     const base64 = await convertBase64(file);
@@ -152,30 +157,14 @@ const handleUploadImage = async (event) => {
     setFieldValue('image', base64);
 };
 
-
-setFieldValue('title', '');
-setValues({
-  title: '',
-  author: '',
-  image: '',
-  content: ''
-});
-
-const { value: title } = useField('title', validateTitle);validateContent
-const { value: author } = useField('author', validateAuthor);
-useField('image', validateImage);
-const { value: content } = useField('content', validateContent);
-
-function onInvalidSubmit({ values, errors, results }) {
+const onInvalidSubmit = ({  errors }) => {
   console.log(errors)
 }
-
-
 
 const onSubmit = handleSubmit(async values => {
   const articleValues = {
     title: values.title,
-    body: values.author,
+    author: values.author,
     categoryId: 6,
     image: values.image,
     content: values.content,
@@ -192,37 +181,10 @@ const onSubmit = handleSubmit(async values => {
     console.log(error);
   }
 }, onInvalidSubmit);
-</script>
 
-
-
-
-<script>
-import RichText from './RichText.vue';
-import { ErrorMessage } from 'vee-validate';
-import axios from 'axios';
-import router from '../router';
-
-export default {
-  name: 'ArticleForm',
-  components: {
-    RichText,
-    ErrorMessage
-  },
-  data: () => {
-    return {
-      title: '',
-      author: ''
-    };
-  },
-  methods: {
-    validateTitle (title) {
-      if (!title) {
-        return 'Debes ingresar el titulo';
-      }
-
-      return true;
-    }
-  }
-}
+// Add validations to vee
+const { value: title } = useField('title', validateTitle);validateContent
+const { value: author } = useField('author', validateAuthor);
+useField('image', validateImage);
+const { value: content } = useField('content', validateContent);
 </script>
