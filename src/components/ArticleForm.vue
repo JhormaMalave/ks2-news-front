@@ -55,11 +55,13 @@
         >
           Categoria
         </label>
-        <select id="category" class="w-full rounded-md border border-[#e0e0e0] bg-white py-4 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
-          <option selected>Noticias</option>
-          <option value="1">Sucesos</option>
-          <option value="2">Nacionales</option>
+        <select v-model="categoryId" id="category" class="w-full rounded-md border border-[#e0e0e0] bg-white py-4 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+          <option v-for="category in categories" :value="category.id" v-bind:key="category.id">
+            {{ category.name }}
+          </option>
         </select>
+
+        <ErrorMessage name="categoryId" class="font-medium text-red-400" />
       </div>
       <div class="mb-5">
         <label
@@ -90,6 +92,9 @@ import RichText from './RichText.vue';
 import { ErrorMessage } from 'vee-validate';
 import axios from 'axios';
 import router from '../router';
+import { onMounted, ref } from 'vue';
+
+const categories = ref([]);
 
 const props = defineProps({
   defaultArticle: Object,
@@ -103,7 +108,8 @@ if (props.defaultArticle) {
     title: props.defaultArticle.title,
     content: props.defaultArticle.content,
     image: props.defaultArticle.image,
-    author: props.defaultArticle.author
+    author: props.defaultArticle.author,
+    categoryId: props.defaultArticle.categoryId
   })
 }
 
@@ -131,6 +137,12 @@ const validateContent = (value) => {
 
 const validateImage = (value) => {
   if (!value) {return 'Debes subir una imagen'}
+
+  return true;
+}
+
+const validateCategory = (value) => {
+  if (!value) {return 'Debes seleccionar una categoria'}
 
   return true;
 }
@@ -168,7 +180,7 @@ const onSubmit = handleSubmit(async values => {
   const articleValues = {
     title: values.title,
     author: values.author,
-    categoryId: 6,
+    categoryId: values.categoryId,
     image: values.image,
     content: values.content,
   };
@@ -192,9 +204,27 @@ const onSubmit = handleSubmit(async values => {
   }
 }, onInvalidSubmit);
 
+
+const getCategories =  async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/categories`
+    );
+
+    categories.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted( () => {
+  getCategories();
+});
+
 // Add validations to vee
 const { value: title } = useField('title', validateTitle);validateContent
 const { value: author } = useField('author', validateAuthor);
 useField('image', validateImage);
+const { value: categoryId } = useField('categoryId', validateCategory);
 const { value: content } = useField('content', validateContent);
 </script>
