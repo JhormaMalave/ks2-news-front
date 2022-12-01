@@ -5,39 +5,34 @@
         <span class="text-indigo-400">Editar</span> noticia.
       </h1>
       <ArticleForm
-        v-if="article"
-        :defaultArticle="this.article"
+        :defaultArticle="article"
       />
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import ArticleForm from '@/components/ArticleForm.vue';
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
-export default {
-  name: 'ArticleEditPage',
-  components: {ArticleForm},
-  data() {
-    return {
-      id: this.$route.params.id,
-      article: null
-    }
-  },
-  methods: {
-    async getArticle () {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/articles/${this.id}`
-        );
-        this.article = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  }, async mounted () {
-    await this.getArticle();
+const article = ref("");
+
+const id = 29
+
+const getArticle = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/articles/${id}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 }
+
+onMounted(async () => {
+  article.value = await getArticle();
+})
 </script>
