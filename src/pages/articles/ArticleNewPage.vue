@@ -4,7 +4,9 @@
       <h1 class="text-2xl font-extrabold text-gray-600 sm:text-3xl md:text-5xl mb-7">
         Deseas <span class="text-indigo-400">crear</span> una noticia?
       </h1>
-      <ArticleForm />
+      <ArticleForm
+        formAction="http://localhost:3000/api/articles"
+      />
     </div>
   </div>
 </template>

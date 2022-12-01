@@ -71,6 +71,7 @@
         <RichText :editContent="editContent" :contentValue="content" />
         <ErrorMessage name="content" class="font-medium text-red-400" />
       </div>
+      <input v-if="isEdit" type="hidden" name="_method" value="put" />
       <div>
         <button
           class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
@@ -91,7 +92,9 @@ import axios from 'axios';
 import router from '../router';
 
 const props = defineProps({
-  defaultArticle: Object
+  defaultArticle: Object,
+  isEdit: Boolean,
+  formAction: String
 });
 
 const { handleSubmit, setFieldValue, setValues } = useForm();
@@ -171,9 +174,13 @@ const onSubmit = handleSubmit(async values => {
   };
 
   try {
+    let response = null;
 
-    const response = await axios.post('http://localhost:3000/api/articles/', articleValues);
-
+    if (props.isEdit) {
+      response = await axios.put(props.formAction, articleValues);
+    } else {
+      response = await axios.post(props.formAction, articleValues);
+    }
     if(response.status === 200) {
       router.push({ path : '/' });
     }

@@ -58,7 +58,6 @@ export default defineComponent({
   },
   watch: {
     content: function () {
-      console.log(this.contentValue)
       this.editContent(this.content)
     }
   },
