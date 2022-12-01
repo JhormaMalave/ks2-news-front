@@ -10,16 +10,18 @@
       </div>
     </div>
   </div>
+  <AlertMessage />
 </template>
 
 <script>
+import AlertMessage from '@/components/AlertMessage.vue';
 import ArticleCards from '@/components/ArticleCards.vue';
 import SearchArticles from '@/components/SearchArticles.vue';
 import axios from 'axios';
 
 export default {
   name: 'HomeIndexPage',
-  components: {SearchArticles, ArticleCards},
+  components: {SearchArticles, AlertMessage, ArticleCards},
   data() {
     return {
       articles: []
