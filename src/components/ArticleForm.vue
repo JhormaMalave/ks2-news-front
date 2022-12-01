@@ -175,14 +175,17 @@ const onSubmit = handleSubmit(async values => {
 
   try {
     let response = null;
+    let message = '';
 
     if (props.isEdit) {
       response = await axios.put(props.formAction, articleValues);
+      message = 'La noticia fue actualizada exitosamente';
     } else {
       response = await axios.post(props.formAction, articleValues);
+      message = 'La noticia fue creada exitosamente';
     }
     if(response.status === 200) {
-      router.push({ path : '/' });
+      router.push({ path : '/' }, sessionStorage.setItem('alert', message));
     }
   } catch (error) {
     console.log(error);

@@ -46,6 +46,7 @@ const destroyArticle = async (value) => {
 
   if(response.status === 200) {
     console.log('El articulo fue eliminado')
+    sessionStorage.setItem('alert', 'La noticia fue eliminada exitosamente');
   }
   } catch (error) {
     console.log(error);
